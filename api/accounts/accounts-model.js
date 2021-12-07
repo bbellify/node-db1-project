@@ -22,6 +22,7 @@ const create = async account => {
 }
 
 const updateById = async (id, account) => {
+  //  update accounts set budget=500 where id = 6;
   await db('accounts')
     .update(account)
     .where('id', id)
@@ -30,14 +31,14 @@ const updateById = async (id, account) => {
 }
 
 const deleteById = async id => {
+  // delete from accounts where id = 13;
   const deleted = await getById(id)
   
   const isDeleted =  await db('accounts')
     .delete()
     .where('id', id)
 
-  if (isDeleted)
-    return deleted
+  return isDeleted ? deleted : isDeleted
 }
 
 module.exports = {

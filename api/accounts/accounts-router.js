@@ -31,21 +31,20 @@ router.post('/', checkAccountPayload, (req, res, next) => {
     .catch(next)
 })
 
-router.put('/:id', checkAccountPayload, (req, res, next) => {
-  Account.updateById(req.params.id, req.body)
+router.put('/:id', checkAccountId, checkAccountPayload, (req, res, next) => {
+  Account.updateById(req.params.id, req.body.new)
     .then(rec => {
       res.status(200).json(rec)
     })
     .catch(next)
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', checkAccountId, (req, res, next) => {
   Account.deleteById(req.params.id)
     .then( rec => {
       res.json(rec)
     })
-    .catch(next({ status: 404, message: 'account not found' }))
-  
+    .catch(next)
 })
 
 router.use((err, req, res, next) => { //eslint-disable-line
