@@ -23,15 +23,15 @@ router.get('/:id', checkAccountId, (req, res, next) => {
     .catch(next)
 })
 
-router.post('/', (req, res, next) => {
-  Account.create(req.body)
+router.post('/', checkAccountPayload, (req, res, next) => {
+  Account.create(req.body.new)
     .then(rec => {
       res.status(201).json(rec)
     })
     .catch(next)
 })
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', checkAccountPayload, (req, res, next) => {
   Account.updateById(req.params.id, req.body)
     .then(rec => {
       res.status(200).json(rec)
