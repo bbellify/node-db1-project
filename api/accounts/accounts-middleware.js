@@ -22,7 +22,12 @@ exports.checkAccountPayload = (req, res, next) => {
 exports.checkAccountNameUnique = (req, res, next) => {
   Account.getAll()
     .then(rows => {
-      console.log(rows)
+      const isTaken = rows.find(acc => acc['name'] === req.body.name)
+      if (isTaken) {
+        next({ status: 400, message: 'that name is taken'}) 
+      } else {
+        next()
+      }
     })
 }
 
