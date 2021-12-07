@@ -9,7 +9,7 @@ const getAll =  async () => {
 
 const getById = async id => {
   // select * from accounts where id=12
-  const record = await db('accounts')
+  const [record] = await db('accounts')
     .where('id', id)
     return record
 }
@@ -36,11 +36,8 @@ const deleteById = async id => {
     .delete()
     .where('id', id)
 
-  if (isDeleted) {
+  if (isDeleted)
     return deleted
-  } else {
-    return 'something went wrong'
-  }
 }
 
 module.exports = {

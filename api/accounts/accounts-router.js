@@ -15,7 +15,7 @@ router.get('/', (req, res, next) => {
     .catch(next)
 })
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', checkAccountId, (req, res, next) => {
   Account.getById(req.params.id)
     .then( rec => {
       res.json(rec)
@@ -26,7 +26,7 @@ router.get('/:id', (req, res, next) => {
 router.post('/', (req, res, next) => {
   Account.create(req.body)
     .then(rec => {
-      res.json(rec)
+      res.status(201).json(rec)
     })
     .catch(next)
 })
@@ -34,7 +34,7 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
   Account.updateById(req.params.id, req.body)
     .then(rec => {
-      res.json(rec)
+      res.status(200).json(rec)
     })
     .catch(next)
 });
@@ -44,11 +44,11 @@ router.delete('/:id', (req, res, next) => {
     .then( rec => {
       res.json(rec)
     })
-    .catch(next)
+    .catch(next({ status: 404, message: 'account not found' }))
   
 })
 
-router.use((err, req, res, next) => { // eslint-disable-line
+router.use((err, req, res, next) => { //eslint-disable-line
   res.status(err.status || 400).json({
     message: `${err.message}`,
     stack: err.stack
