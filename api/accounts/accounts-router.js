@@ -32,10 +32,19 @@ router.post('/', (req, res, next) => {
 })
 
 router.put('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+  Account.updateById(req.params.id, req.body)
+    .then(rec => {
+      res.json(rec)
+    })
+    .catch(next)
 });
 
 router.delete('/:id', (req, res, next) => {
+  Account.deleteById(req.params.id)
+    .then( rec => {
+      res.json(rec)
+    })
+    .catch(next)
   
 })
 

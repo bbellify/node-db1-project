@@ -19,15 +19,28 @@ const create = async account => {
   const [newid] = await db('accounts').insert(account)
   const newAccount = await getById(newid)
   return newAccount
-
 }
 
-const updateById = (id, account) => {
-  // DO YOUR MAGIC
+const updateById = async (id, account) => {
+  await db('accounts')
+    .update(account)
+    .where('id', id)
+  const updated = await getById(id)
+  return updated
 }
 
-const deleteById = id => {
-  // DO YOUR MAGIC
+const deleteById = async id => {
+  const deleted = await getById(id)
+  
+  const isDeleted =  await db('accounts')
+    .delete()
+    .where('id', id)
+
+  if (isDeleted) {
+    return deleted
+  } else {
+    return 'something went wrong'
+  }
 }
 
 module.exports = {
